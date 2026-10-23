@@ -1,0 +1,60 @@
+=== Sealed rerun of NEON kernel SMT evidence ===
+date_utc: 2026-10-23T08:17:01Z
+host: Linux 4.19.0-gvisor x86_64
+z3: Z3 version 5.3.1 - 64 bit
+invocation: z3 <script> (no options; timeout 3600s per script)
+expected: unsat for 3 main scripts + mutation_redc_wrong_p (output-
+  equivalent by analysis); sat for the 6 other mutations
+
+script: neon_add_op.smt2  (expect unsat)
+  sha256_before: 81c0b33b9fac691d9027bbc1aee409d83e855c9173b102e3355ba5fc9caada92
+  result: unsat
+  exit_status: 0
+  sha256_after:  81c0b33b9fac691d9027bbc1aee409d83e855c9173b102e3355ba5fc9caada92
+script: neon_sub_op.smt2  (expect unsat)
+  sha256_before: ddc3e7eb3f62d3eb9f0091943be13a3513059b884d232f71c1059c57ec62996e
+  result: unsat
+  exit_status: 0
+  sha256_after:  ddc3e7eb3f62d3eb9f0091943be13a3513059b884d232f71c1059c57ec62996e
+script: neon_mont_mul_vec.smt2  (expect unsat)
+  sha256_before: c90979617422aa0b761c47519f580bc5c1404be4925117b0cb077f3c5198ff86
+  result: unsat
+  exit_status: 0
+  sha256_after:  c90979617422aa0b761c47519f580bc5c1404be4925117b0cb077f3c5198ff86
+script: mutation_redc_wrong_p.smt2  (expect unsat)
+  sha256_before: 0c1481fa3388835f8282d19eca15597555d50fdae181c1d4033b8d79b3d3ed9e
+  result: 
+  exit_status: 124
+  sha256_after:  0c1481fa3388835f8282d19eca15597555d50fdae181c1d4033b8d79b3d3ed9e
+script: mutation_add_vcgt.smt2  (expect sat)
+  sha256_before: 1165c840bbeb17e5fb3abb0bf74312758bb78f4128b37d276871ac4132a68175
+  result: sat
+  exit_status: 0
+  sha256_after:  1165c840bbeb17e5fb3abb0bf74312758bb78f4128b37d276871ac4132a68175
+script: mutation_sub_bsl_swapped.smt2  (expect sat)
+  sha256_before: f16ca259a3cc14f561476c3a56f9c0d90224776462eeb820e85ac9f26d0b5428
+  result: sat
+  exit_status: 0
+  sha256_after:  f16ca259a3cc14f561476c3a56f9c0d90224776462eeb820e85ac9f26d0b5428
+script: mutation_redc_wrong_neg_inv.smt2  (expect sat)
+  sha256_before: 5b923e4f3f5034e641da63982e1ba0dbfcc7b0c0d077ca2bb8c71ecf55983cfa
+  result: sat
+  exit_status: 0
+  sha256_after:  5b923e4f3f5034e641da63982e1ba0dbfcc7b0c0d077ca2bb8c71ecf55983cfa
+script: mutation_redc_wrong_p_final.smt2  (expect sat)
+  sha256_before: 15a80c84c59e6e232868c323ca790ee7ed03ade6fadd480183beb78e5643f130
+  result: sat
+  exit_status: 0
+  sha256_after:  15a80c84c59e6e232868c323ca790ee7ed03ade6fadd480183beb78e5643f130
+script: mutation_redc_no_cond_sub.smt2  (expect sat)
+  sha256_before: d4256310b221ad38ac12c9ebe6a7fe1170bae5c04095dc0ab8f7ec179600637a
+  result: sat
+  exit_status: 0
+  sha256_after:  d4256310b221ad38ac12c9ebe6a7fe1170bae5c04095dc0ab8f7ec179600637a
+script: mutation_redc_m_zero.smt2  (expect sat)
+  sha256_before: ecce52d6d59dde40fc62839f5ff52b1d512e9221c413c16ef151ab96abe97eac
+  result: sat
+  exit_status: 0
+  sha256_after:  ecce52d6d59dde40fc62839f5ff52b1d512e9221c413c16ef151ab96abe97eac
+
+=== rerun complete: 2026-10-23T09:26:32Z ===
