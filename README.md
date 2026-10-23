@@ -63,3 +63,9 @@ Negative results (one 3600 s solver timeout, one provable output-
 equivalence mutation finding) are recorded, not hidden.
 
 Solver: Z3 5.3.1. Language: Rust. Field: BabyBear, P = 0x78000001, R = 2^32.
+
+## License
+
+This repository is licensed under the Apache License 2.0. See [LICENSE](LICENSE).
+
+The license applies to the repository's contents, including the kernel source files (byte-identical to avx512-butterfly), the audit artifacts, and the demo scripts. It governs reuse; it does not certify verification results beyond the documented evidence scope, which is governed by the audit records.
