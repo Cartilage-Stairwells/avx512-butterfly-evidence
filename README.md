@@ -3,6 +3,18 @@
 Public evidence bundle for the SMT verification of the AVX-512 and NEON
 BabyBear (P = 0x78000001) butterfly kernel lane-arithmetic schedules.
 
+## Try it in one command — don't take our word for it
+
+```
+curl -fsSL https://raw.githubusercontent.com/Cartilage-Stairwells/avx512-butterfly-evidence/main/demo/try.sh | bash
+```
+
+Seconds to run. You will watch a solver PROVE a real production kernel
+schedule correct for every possible input, watch the same checker CATCH a
+deliberately broken variant, and verify the files you ran against the
+published SHA256 seal. Needs only `z3` (the script tries to install it).
+The demo states plainly what it establishes and what it does not.
+
 **What this repo is.** A curated, public copy of the verification evidence
 from the private development repository `Cartilage-Stairwells/avx512-butterfly`
 at commit `78f7a8833da66e68b8a339d8a50ef5fe9262fbd0` (2026-10-23). The
