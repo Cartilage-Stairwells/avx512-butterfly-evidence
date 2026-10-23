@@ -1,0 +1,90 @@
+name: NEON native validation (Apple Silicon)
+
+# Purpose: run the neon_parity suite and the scalar-vs-NEON butterfly bench
+# on NATIVE Apple Silicon (M-series), upgrading the existing qemu-aarch64
+# emulation evidence to native silicon. Smoke-class measurement only
+# (1s criterion samples) — a sealed capture still requires the firebird
+# capture protocol on a named host. Per the project evidence rules:
+# GitHub-hosted runners with named CPUs are owner-accepted.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ neon/m1-validation ]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: always
+
+jobs:
+  neon-m1:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Toolchain metadata
+        run: |
+          rustc --version
+          cargo --version
+          rustup show active-toolchain
+
+      - name: Host provenance
+        run: |
+          sysctl -n machdep.cpu.brand_string
+          sysctl -n hw.ncpu hw.memsize hw.l1icachesize hw.l3cachesize || true
+          sw_vers
+          uname -a
+
+      - name: Target arch check (fail-closed)
+        run: |
+          rustc -vV | tee /dev/stderr | grep -q 'host: aarch64-apple-darwin' || {
+            echo 'FATAL: runner is not aarch64 — aborting to prevent scalar masquerade'; exit 1; }
+
+      - name: NEON parity + lib tests (native silicon)
+        run: |
+          set -o pipefail
+          cargo test --lib 2>&1 | tee test_lib_output.txt
+
+      - name: NEON intrinsic-semantics pinning (SMT model premises)
+        run: |
+          set -o pipefail
+          cargo test --test neon_intrinsic_semantics -- --nocapture 2>&1 | tee test_semantics_output.txt
+
+      - name: NEON butterfly bench (smoke measurement)
+        run: |
+          set -o pipefail
+          cargo bench --bench neon_butterfly_bench -- --measurement-time 1 --warm-up-time 1 2>&1 | tee bench_output.txt
+
+      - name: Consolidate criterion estimates
+        run: |
+          python3 - << 'EOF'
+          import json, glob, os
+          out = {}
+          for est in sorted(glob.glob('target/criterion/*/*/new/estimates.json')):
+              parts = est.split(os.sep)
+              group, size = parts[2], parts[3]
+              out.setdefault(group, {})[size] = {k: v['point_estimate'] for k, v in json.load(open(est)).items() if isinstance(v, dict)}
+          json.dump(out, open('neon_bench_estimates.json', 'w'), indent=1, sort_keys=True)
+          print('groups captured:', len(out))
+          EOF
+          cat neon_bench_estimates.json
+
+      - name: SHA256 seal of raw outputs
+        run: |
+          shasum -a 256 test_lib_output.txt test_semantics_output.txt bench_output.txt neon_bench_estimates.json > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Upload evidence bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-m1-evidence
+          path: |
+            test_lib_output.txt
+            test_semantics_output.txt
+            bench_output.txt
+            neon_bench_estimates.json
+            SHA256SUMS
