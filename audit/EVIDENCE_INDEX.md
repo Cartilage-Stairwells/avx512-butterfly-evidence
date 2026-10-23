@@ -69,11 +69,14 @@ silicon pinning → evidence pointers; standard path only). Tens of minutes:
 wrong_p direct confirmation (not concluded in 3600 s; supplementary to the
 lemmas). Long experiments are recorded as such — never silently excluded.
 
-## Access note
+## Access note (updated 2026-10-23)
 
-The evidence artifacts above live in the **private** repository
-`Cartilage-Stairwells/avx512-butterfly` (sealed, hash-manifested). The public
+This evidence is PUBLICLY accessible: the curated bundle
+`Cartilage-Stairwells/avx512-butterfly-evidence` (public repository, pushed
+from the sealed commit 78f7a88 of the private development repo — byte-
+identical files, verify against the SHA256SUMS seals above). The public
 repository `Cartilage-Stairwells/tscp-anchor` carries the Lean proofs and the
-claims statement. Prospective customers can be granted authorized access to
-the audit bundle; nothing in this index claims the private artifacts are
-publicly accessible.
+claims statement. The private development repository retains working
+material that is intentionally unpublished (including privileged and
+personal documents — the reason the full repo is not public and only this
+curated evidence bundle is).
