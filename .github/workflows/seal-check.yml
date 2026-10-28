@@ -1,0 +1,25 @@
+name: Evidence seal check
+
+# Every published seal must verify from the repository root with the exact
+# command the README gives. The 2026-10-22 AVX-512 seal originally listed
+# bare filenames, so `sha256sum -c` failed 32/32 for every external reader
+# even though the sealed bytes were intact. Both seals are root-relative
+# now and this job keeps them that way.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  seals:
+    name: Verify published SHA256 seals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: AVX-512 kernel seal (2026-10-22)
+        run: sha256sum -c audit/SHA256SUMS_2026-10-22_AVX512_KERNEL
+
+      - name: NEON kernel seal (2026-10-23)
+        run: sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL
