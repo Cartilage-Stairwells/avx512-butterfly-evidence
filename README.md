@@ -28,10 +28,16 @@ Verify against the seals inside `audit/`:
 - `audit/SHA256SUMS_2026-10-22_AVX512_KERNEL` — AVX-512 seal (20+ entries)
 - `audit/SHA256SUMS_2026-10-23_NEON_KERNEL` — NEON seal (20 entries)
 
-Run `sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL` from the repo
-root (paths differ only by the `audit/` prefix the seals use — the sealed
-scripts, logs, and docs are all inside `audit/`). The sealed rerun logs
-record per-script hashes, solver version, and exit statuses.
+Verify both seals from the repository root:
+
+```
+sha256sum -c audit/SHA256SUMS_2026-10-22_AVX512_KERNEL
+sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL
+```
+
+Both are expected to report every entry `OK` from the repo root, and CI
+re-checks both seals on every push (`.github/workflows/seal-check.yml`).
+The sealed rerun logs record per-script hashes, solver version, and exit statuses.
 
 **Start here.**
 

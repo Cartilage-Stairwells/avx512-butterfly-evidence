@@ -28,29 +28,48 @@ P=0x78000001
 
 echo "┌─────────────────────────────────────────────────────────────────┐"
 echo "  DON'T TAKE OUR WORD FOR IT — a verification you can run"
-echo "                       $(date -u +%Y-%m-%d %H:%M UTC)"
+echo "                       $(date -u '+%Y-%m-%d %H:%M UTC')"
 echo "└─────────────────────────────────────────────────────────────────┘"
 
 # --- solver availability -----------------------------------------------------
-if ! command -v z3 >/dev/null 2>&1; then
+Z3=""
+if command -v z3 >/dev/null 2>&1; then
+  Z3="z3"
+else
   echo
-  echo "  This demo needs the Z3 solver (one small binary, no deps)."
-  echo "  Trying to install it for you..."
-  if command -v apt-get >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
-    sudo apt-get install -y z3 >/dev/null 2>&1 && echo "  installed z3 ✓" ||
-      { echo "  ✗ automatic install failed. Install it yourself, then rerun:"; echo "       apt-get install z3   (or: brew install z3 / choco install z3)"; exit 1; }
-  elif command -v brew >/dev/null 2>&1; then
-    brew install z3 >/dev/null 2>&1 && echo "  installed z3 ✓" ||
-      { echo "  ✗ brew install failed. Run 'brew install z3', then rerun."; exit 1; }
+  echo "  This demo needs the Z3 solver. Trying to obtain it..."
+  if command -v apt-get >/dev/null 2>&1 && sudo -n true 2>/dev/null && \
+     sudo apt-get install -y z3 >/dev/null 2>&1 && command -v z3 >/dev/null 2>&1; then
+    Z3="z3"; echo "  installed z3 via apt ✓"
+  elif command -v brew >/dev/null 2>&1 && brew install z3 >/dev/null 2>&1 \
+       && command -v z3 >/dev/null 2>&1; then
+    Z3="z3"; echo "  installed z3 via brew ✓"
   else
-    echo "  ✗ z3 not found and no installer available."
-    echo "     Linux:  sudo apt-get install z3"
-    echo "     macOS:  brew install z3"
-    echo "     Then rerun this command."
-    exit 1
+    echo "  No system solver. Trying the Python binding (no root required)..."
+    if python3 -c "import z3" >/dev/null 2>&1 || \
+       pip3 install --quiet z3-solver >/dev/null 2>&1 || \
+       python3 -m pip install --quiet z3-solver >/dev/null 2>&1; then
+      _SHIM="$(mktemp -t z3shim.XXXXXX).py"
+      printf '%s\n' 'import sys, z3' 's = z3.Solver()' 's.from_file(sys.argv[1])' \
+        'print(s.check())' > "$_SHIM"
+      Z3="python3 $_SHIM"
+      echo "  using the z3-solver Python package ✓"
+    else
+      echo "  ✗ could not obtain Z3 automatically. Any one of these works:"
+      echo "       sudo apt-get install z3     # Debian/Ubuntu"
+      echo "       brew install z3             # macOS"
+      echo "       pip install z3-solver       # no root required"
+      echo "     Then rerun this command."
+      exit 1
+    fi
   fi
 fi
-echo "  solver: $(z3 --version | head -1)"
+if [ "$Z3" = "z3" ]; then
+  echo "  solver: $(z3 --version | head -1)"
+else
+  echo "  solver: z3-solver (python) $(python3 -c 'import z3; print(z3.get_version_string())' 2>/dev/null)"
+fi
+
 
 WORK=$(mktemp -d /tmp/tryverify.XXXXXX)
 trap 'rm -rf "$WORK"' EXIT
@@ -89,9 +108,9 @@ echo
 echo "─────────────────────────────────────────────────────────────────"
 echo " [2] THE PROOF — a machine checks ALL 4 billion x 4 billion pairs."
 echo "─────────────────────────────────────────────────────────────────"
-r1=$(z3 neon_add_op.smt2)
+r1=$($Z3 neon_add_op.smt2)
 echo "  add:      $r1   ← 'unsat' means: NO counterexample exists. Proven."
-r2=$(z3 neon_sub_op.smt2)
+r2=$($Z3 neon_sub_op.smt2)
 echo "  subtract: $r2   ← same claim for (a − b) mod P. Proven."
 
 echo
@@ -100,7 +119,7 @@ echo " [3] NOW WE BREAK IT — on purpose. One character: >= becomes >."
 echo "─────────────────────────────────────────────────────────────────"
 echo "  (An easy off-by-one to write. sum == P exactly — the one case the"
 echo "   broken version misses. If our checker is real, it MUST catch it.)"
-r3=$(z3 mutation_add_vcgt.smt2)
+r3=$($Z3 mutation_add_vcgt.smt2)
 echo "  broken schedule: $r3   ← 'sat' means: a counterexample was FOUND."
 echo "  DEFECT DETECTED. The checker has teeth."
 echo
