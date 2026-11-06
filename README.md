@@ -3,6 +3,21 @@
 Public evidence bundle for the SMT verification of the AVX-512 and NEON
 BabyBear (P = 0x78000001) butterfly kernel lane-arithmetic schedules.
 
+> **STATUS: DOES NOT BUILD.** A clean clone of this repository does not compile, and
+> nothing here should be read as a reproducible build. Measured at `main` on 2026-11-06:
+> `Cargo.toml` declares four `[[bench]]` targets (`butterfly_bench`, `ntt_bench`,
+> `three_lane_bench`, `neon_butterfly_bench`) and one `[[bin]]` (`iep_runner`) for which
+> there is no `benches/` or `src/bin/` directory; there is no `src/lib.rs`; and the tests
+> import modules (`field`, `core`, `ntt`, `avx512_butterfly_32bit`) that are absent from
+> the tree. Consequently `cargo test` cannot exercise this code, and any run reporting
+> "0 tests passed" is a statement about the crate's wiring, not evidence about the kernel.
+>
+> **What still stands.** The SMT evidence under `audit/` is self-contained and does not
+> depend on the Rust tree: it needs only `z3`, and it is the part a reader can actually
+> re-run. Restoring the Rust path requires publishing the missing `src/` modules, the
+> bench sources and the binary so that a clean clone builds and the tests exercise real
+> code. Until then this repository is published as incomplete.
+
 ## Try it in one command — don't take our word for it
 
 ```
@@ -55,8 +70,9 @@ The sealed rerun logs record per-script hashes, solver version, and exit statuse
   host silicon (fail-closed) → evidence package + explicit boundary.
 
 **Reproduce.** With Z3 installed: `z3 audit/neon_add_op.smt2` (unsat, in
-seconds). With Rust: run the intrinsic-semantics pinning suites in
-`tests/`. The full evidence set for both engines is sealed in
+seconds). The Rust path is NOT reproducible in this repository today: the crate does not
+build (see the status block at the top), so the intrinsic-semantics suites in `tests/`
+cannot be compiled or run here. The full evidence set for both engines is sealed in
 `audit/seal_rerun_2026-10-22.txt` (26 scripts) and
 `audit/seal_rerun_neon_2026-10-23.txt` (10 scripts).
 
