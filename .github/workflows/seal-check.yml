@@ -1,10 +1,21 @@
 name: Evidence seal check
 
-# Every published seal must verify from the repository root with the exact
-# command the README gives. The 2026-10-22 AVX-512 seal originally listed
-# bare filenames, so `sha256sum -c` failed 32/32 for every external reader
-# even though the sealed bytes were intact. Both seals are root-relative
-# now and this job keeps them that way.
+# Every published seal must verify from the repository root with the exact command the
+# README gives. The 2026-10-22 AVX-512 seal originally listed bare filenames, so
+# sha256sum -c failed 32/32 for every external reader even though the sealed bytes were
+# intact. Both of those seals are root-relative now and this job keeps them that way.
+#
+# SUPERSESSION, 2026-11-07. The 2026-10-22 AVX-512 manifest is RETAINED as the record of
+# the bytes sealed that day and is deliberately NOT gated here. On 2026-11-07 the status
+# header of audit/AVX512_KERNEL_SMT_VERIFICATION.md was corrected from "Z3 4.x" to
+# "Z3 5.3.1", which both sealed rerun logs record and therefore support. That edit changed
+# a file inside the 2026-10-22 seal, so that manifest now disagrees on exactly that one
+# line, which is the accurate description of what happened.
+#
+# Editing the 2026-10-22 manifest to carry the new digest would make it describe bytes it
+# never sealed, so it was re-issued instead: SHA256SUMS_2026-11-07_AVX512_KERNEL covers the
+# same file set with every other digest unchanged. That re-issue is what is gated.
+# DO NOT re-gate the 2026-10-22 file. Its single disagreement is the record, not a bug.
 
 on:
   push:
@@ -18,8 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: AVX-512 kernel seal (2026-10-22)
-        run: sha256sum -c audit/SHA256SUMS_2026-10-22_AVX512_KERNEL
+      - name: AVX-512 kernel seal (current, re-issued 2026-11-07)
+        run: sha256sum -c audit/SHA256SUMS_2026-11-07_AVX512_KERNEL
+
+      - name: NEON lemma rerun seal (2026-11-07)
+        run: sha256sum -c audit/SHA256SUMS_2026-11-07_NEON_LEMMAS
 
       - name: NEON kernel seal (2026-10-23)
         run: sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL
