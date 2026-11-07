@@ -1,0 +1,20 @@
+name: verify SMT bindings and seals
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bindings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every manifest still verifies
+        run: |
+          set -e
+          for m in audit/SHA256SUMS_*; do echo "== $m"; sha256sum -c "$m"; done
+      - name: Models are still bound to the source they claim
+        run: |
+          set -e
+          python3 audit/verify_smt_bindings.py

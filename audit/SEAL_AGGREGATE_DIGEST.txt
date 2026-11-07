@@ -1,0 +1,11 @@
+# Aggregate trust-root record: one dated digest over every manifest in audit/.
+# Each line is the digest of a manifest. A reader recomputes all five and compares.
+# sha256_all_manifests is the digest of the five lines below, in this order.
+recorded_utc: 2026-11-07T15:10:41Z
+manifest_count: 5
+40221a0faa11f52d99c4c7cf36011780c42ca307b6150685d358b2c379a675b6  audit/SHA256SUMS_2026-10-22_AVX512_KERNEL
+9bba88c7a5d3975f9f82d829a27428d4c5594b1c96234e2524378e22f77f192b  audit/SHA256SUMS_2026-10-23_NEON_KERNEL
+4cd49add875c82008d4a3f66f36168ece738e9af57376b480aac2351b3df772f  audit/SHA256SUMS_2026-11-07_AVX512_KERNEL
+9a34ad65eab1f74ce00180a0fce28b4a753edc3e5938f9c1f8c60147802ef653  audit/SHA256SUMS_2026-11-07_NEON_LEMMAS
+04d541272e7154fa247668c9d9899b35b9c93f4fd6dc3cd1f89a125465a28599  audit/SHA256SUMS_2026-11-07_SMT_PROVENANCE
+sha256_all_manifests: 6fdbe7bc14502db3d1c223617106866c6ff808e7a296f392309edf7d47ca226c
