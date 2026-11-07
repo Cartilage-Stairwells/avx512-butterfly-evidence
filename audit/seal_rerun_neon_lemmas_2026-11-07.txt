@@ -1,0 +1,31 @@
+=== Supplementary sealed rerun of NEON wrong_p lemma scripts ===
+date_utc: 2026-11-07T11:54:59Z
+host: Linux 4.19.0-gvisor x86_64
+z3: Z3 version 5.3.1 - 64 bit
+z3_binary: /tmp/z3whl/bin/z3 sha256 29f796d291ae2dfca032b69c6f76c5b70be19078ccb52ab3cb6ec9a8600004a4
+invocation: z3 <script> (no options; timeout 300s per lemma, 3600s for equivalence)
+required: lemma1 unsat, lemma2 unsat (NEON_KERNEL_SMT_VERIFICATION.md)
+optional: equivalence script, no documented expected verdict; timeout/unknown = INCONCLUSIVE, never a pass
+scope: supplements seal_rerun_neon_2026-10-23.txt, which did not execute these scripts
+
+script: mutation_redc_wrong_p_lemma1.smt2  (expect unsat)
+  sha256_before: ab58b4643f60d1c03b19604a43aab661fd35b8d7cbdd99af31fbbc8f76c9754f
+  manifest_check: matches audit/SHA256SUMS_2026-10-23_NEON_KERNEL
+  result: unsat
+  exit_status: 0
+  sha256_after:  ab58b4643f60d1c03b19604a43aab661fd35b8d7cbdd99af31fbbc8f76c9754f
+  z3_sha256_before: 29f796d291ae2dfca032b69c6f76c5b70be19078ccb52ab3cb6ec9a8600004a4
+  z3_sha256_after:  29f796d291ae2dfca032b69c6f76c5b70be19078ccb52ab3cb6ec9a8600004a4
+script: mutation_redc_wrong_p_lemma2.smt2  (expect unsat)
+  sha256_before: 2a6e7dd667c1e9cb1bf01217e974267a7b5e05dcbf39c151ab2837cf1920b5f8
+  manifest_check: matches audit/SHA256SUMS_2026-10-23_NEON_KERNEL
+  result: unsat
+  exit_status: 0
+  sha256_after:  2a6e7dd667c1e9cb1bf01217e974267a7b5e05dcbf39c151ab2837cf1920b5f8
+  z3_sha256_before: 29f796d291ae2dfca032b69c6f76c5b70be19078ccb52ab3cb6ec9a8600004a4
+  z3_sha256_after:  29f796d291ae2dfca032b69c6f76c5b70be19078ccb52ab3cb6ec9a8600004a4
+
+summary: mutation_redc_wrong_p_lemma1=unsat(hash-ok,rc0) mutation_redc_wrong_p_lemma2=unsat(hash-ok,rc0) 
+equivalence: not run
+outcome: PASS
+=== rerun complete: 2026-11-07T11:54:59Z ===

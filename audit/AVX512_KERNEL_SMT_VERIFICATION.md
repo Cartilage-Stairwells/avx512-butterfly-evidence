@@ -1,6 +1,6 @@
 # AVX-512 Engine-Op SMT Verification — the 32-bit-lane production schedule
 
-**Status:** executed and sealed 2026-10-22 on this seat (Z3 4.x via /usr/local/bin/z3,
+**Status:** executed and sealed 2026-10-22 on this seat (Z3 5.3.1 via /usr/local/bin/z3,
 see REPRODUCTION update for the exact version and hashes). This document, the
 scripts in this directory, the generator, and the silicon-pinning test
 `tests/avx512_intrinsic_semantics.rs` together close the gap between the public
