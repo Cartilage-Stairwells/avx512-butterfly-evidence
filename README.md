@@ -40,10 +40,11 @@ relevant is here.
 **Provenance and integrity.** The files here are byte-identical copies.
 Verify against the seals inside `audit/`:
 
-- `audit/SHA256SUMS_2026-10-22_AVX512_KERNEL` — AVX-512 seal (20+ entries)
-- `audit/SHA256SUMS_2026-10-23_NEON_KERNEL` — NEON seal (20 entries)
+- `audit/SHA256SUMS_2026-11-07_AVX512_KERNEL` — AVX-512 kernel evidence (32 entries)
+- `audit/SHA256SUMS_2026-10-23_NEON_KERNEL` — NEON kernel evidence (20 entries)
+- `audit/SHA256SUMS_2026-11-07_NEON_LEMMAS` — supplementary NEON lemma rerun (3 entries)
 
-Verify both seals from the repository root:
+Verify all three from the repository root:
 
 ```
 sha256sum -c audit/SHA256SUMS_2026-11-07_AVX512_KERNEL
@@ -51,8 +52,11 @@ sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL
 sha256sum -c audit/SHA256SUMS_2026-11-07_NEON_LEMMAS
 ```
 
-Both are expected to report every entry `OK` from the repo root, and CI
-re-checks both seals on every push (`.github/workflows/seal-check.yml`).
+Each is expected to report every entry `OK` from the repo root, and CI
+re-checks them on every push (`.github/workflows/seal-check.yml`).
+`audit/SHA256SUMS_2026-10-22_AVX512_KERNEL` is the AVX-512 set as originally
+sealed, still verifying at 32 entries; `audit/SEALS.md` indexes all four and
+discloses the one entry re-pointed on 2026-11-07.
 The sealed rerun logs record per-script hashes, solver version, and exit statuses.
 
 **Start here.**
