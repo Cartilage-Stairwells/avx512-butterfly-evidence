@@ -4,7 +4,7 @@ Public evidence bundle for the SMT verification of the AVX-512 and NEON
 BabyBear (P = 0x78000001) butterfly kernel lane-arithmetic schedules.
 
 > **STATUS: DOES NOT BUILD.** A clean clone of this repository does not compile, and
-> nothing here should be read as a reproducible build. Measured at `main` on 2026-11-06:
+> nothing here should be read as a reproducible build. Measured at `main` on 2026-11-07:
 > `Cargo.toml` declares four `[[bench]]` targets (`butterfly_bench`, `ntt_bench`,
 > `three_lane_bench`, `neon_butterfly_bench`) and one `[[bin]]` (`iep_runner`) for which
 > there is no `benches/` or `src/bin/` directory; there is no `src/lib.rs`; and the tests
@@ -12,6 +12,8 @@ BabyBear (P = 0x78000001) butterfly kernel lane-arithmetic schedules.
 > the tree. Consequently `cargo test` cannot exercise this code, and any run reporting
 > "0 tests passed" is a statement about the crate's wiring, not evidence about the kernel.
 >
+These declarations are retained deliberately rather than removed: they record the shape of the tree the SMT results were derived from. The Rust implementation is withdrawn from this bundle and remains unpublished, so they are provenance, not a build promise.
+
 > **What still stands.** The SMT evidence under `audit/` is self-contained and does not
 > depend on the Rust tree: it needs only `z3`, and it is the part a reader can actually
 > re-run. Restoring the Rust path requires publishing the missing `src/` modules, the
