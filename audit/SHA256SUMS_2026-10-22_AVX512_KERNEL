@@ -1,6 +1,15 @@
 # Re-rooted 2026-10-28: entries now carry the audit/ prefix so this seal verifies
 # from the repository root, matching SHA256SUMS_2026-10-23_NEON_KERNEL.
 # Digests are unchanged; no sealed file was modified.
+#
+# RE-POINTED 2026-11-07, one entry only. The status header of
+# audit/AVX512_KERNEL_SMT_VERIFICATION.md
+# said 'Z3 4.x'; both sealed rerun logs record Z3 5.3.1, so the header was corrected.
+# That edit made this entry disagree, so the digest below was updated to the corrected
+# bytes. The digest this seal originally recorded for that file is:
+#   c5b46722125d10ad3494c669915972c8f8af6b1a05eac97112e95ec04d22b9ab
+# Nothing else in this file changed: 31 of 32 entries are untouched, and this comment
+# preserves the original value so the change is auditable rather than silent.
 10a08d545305b6c837835b5949a2710e5a1dadef83c2812012cf03873e2b378a  audit/avx512_add_op.smt2
 3a73a9cff5a1d4eff30aa23aa41e291f2850c472c5ed3fcac45f2095e66e8928  audit/avx512_sub_op.smt2
 14d7aecf8bbc9953b6dc6326987a60f65e5db8771aa6ccd58f33150a3ef57291  audit/mont_mul_16_pair0.smt2
@@ -30,6 +39,6 @@ c659c4c8e5c165151b0d4b940d10c1ac095e35108060249fdf1b41cf8e88ee10  audit/mutation
 ea99a9c1350702335eba2fd55cbe72f0bddf328c1fbe07b5d1b8fb19f739d965  audit/mutation_wrong_p.smt2
 a3bdb92101b1bfa3de4435ffe73aa042299a0a94437d83710073ca66d68dc7fc  audit/mutation_wrong_p_32lane.smt2
 6797cee31cd72ec008f8d5d0198c89b3a096d4c7672447d84d213522b4d529f7  audit/gen_smt_avx512.py
-c5b46722125d10ad3494c669915972c8f8af6b1a05eac97112e95ec04d22b9ab  audit/AVX512_KERNEL_SMT_VERIFICATION.md
+b03afea3707e0daec040a8e7fc078b12d7a70fdc9ada44a92589521ae8e24ead  audit/AVX512_KERNEL_SMT_VERIFICATION.md
 e98ee1591e4ca7140a1a0fc10c3f70e2c3d2d10741e0b598972fdd513dee5062  audit/rerun_sealed.sh
 ec477b4edfe519e9892e8fde6dff6b946b0a69d625b65b1cd2a0870e9d53cd6c  audit/seal_rerun_2026-10-22.txt

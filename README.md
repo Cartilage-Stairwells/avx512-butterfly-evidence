@@ -46,8 +46,9 @@ Verify against the seals inside `audit/`:
 Verify both seals from the repository root:
 
 ```
-sha256sum -c audit/SHA256SUMS_2026-10-22_AVX512_KERNEL
+sha256sum -c audit/SHA256SUMS_2026-11-07_AVX512_KERNEL
 sha256sum -c audit/SHA256SUMS_2026-10-23_NEON_KERNEL
+sha256sum -c audit/SHA256SUMS_2026-11-07_NEON_LEMMAS
 ```
 
 Both are expected to report every entry `OK` from the repo root, and CI
