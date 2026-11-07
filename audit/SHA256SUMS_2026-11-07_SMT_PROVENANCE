@@ -1,7 +1,9 @@
-# Seal for the SMT model-to-source binding artifacts, 2026-11-07.
-# Scope: the binding record, the verifier that enforces it, and their documentation.
-# These are ADDITIVE: no pre-existing sealed byte was modified to create this seal.
-#
+# Seals the SMT model binding and its trust-root documentation.
+# The digest of THIS file is recorded in audit/SMT_PROVENANCE_DIGEST.txt
+# and timestamped via OpenTimestamps. This file does not cover itself.
+# Paths are relative to the repository root.
+
 8bf637957648e7027f26a7936491911bd5f81232891cc170e79655d8a32e47e0  audit/SMT_MODEL_BINDINGS.json
 7bd2cfcf44df31ebe9f10b153474043b8b57a53df3c03e276a931b2dbff43c3d  audit/verify_smt_bindings.py
 2cd213f9c5db2a8c04817dd26f2dd833830b5bdfe1bc465fb0d6d60fd746c99d  audit/SMT_MODEL_PROVENANCE.md
+e6583d8ea2d7b9a758d7b4b9bd53aeb435de4b7ccd2cebf70261d953ab513984  audit/TRUST_ROOT.md

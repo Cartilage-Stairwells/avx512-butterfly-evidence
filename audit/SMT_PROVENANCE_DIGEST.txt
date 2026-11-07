@@ -1,0 +1,6 @@
+# Trust-root record: digest of the SMT provenance manifest.
+# A reader recomputes the first field from the manifest and compares.
+# This file is timestamped by OpenTimestamps; see TRUST_ROOT.md for the chain.
+recorded_utc: 2026-11-07T14:25:06Z
+manifest: audit/SHA256SUMS_2026-11-07_SMT_PROVENANCE
+sha256_manifest: 04d541272e7154fa247668c9d9899b35b9c93f4fd6dc3cd1f89a125465a28599
