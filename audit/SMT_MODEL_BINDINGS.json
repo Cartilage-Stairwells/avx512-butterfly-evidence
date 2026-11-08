@@ -179,9 +179,27 @@
       "bytes": 14124,
       "sha256": "c9dbff6719c51cd69e18a4c973626437966023918a741dcba47ef929f905da5e"
     },
+    "src/vector/neon.rs": {
+      "bytes": 6255,
+      "sha256": "b5935bbb07be0b230752bff172b06c9fbd2ca861bb69ddc0fc1bbe4e86267efd"
+    },
     "tests/avx512_intrinsic_semantics.rs": {
       "bytes": 8832,
       "sha256": "2f59d4e785739efe1b07ef03d4a7fc7a74ee4edb92cbc1335a32834ace7e6e3e"
+    },
+    "tests/neon_intrinsic_semantics.rs": {
+      "bytes": 7563,
+      "sha256": "97415a1e2d84ab48c7a6505111ab8d564a0369566fae385cec84ebc1ceabe869"
+    }
+  },
+  "source_scope": {
+    "src/vector/avx512.rs": {
+      "binds": "AVX-512 models, 16 lanes",
+      "pinned_by": "tests/avx512_intrinsic_semantics.rs"
+    },
+    "src/vector/neon.rs": {
+      "binds": "NEON models, 4 lanes",
+      "pinned_by": "tests/neon_intrinsic_semantics.rs"
     }
   }
 }
