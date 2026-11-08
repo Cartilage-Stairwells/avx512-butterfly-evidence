@@ -6,12 +6,18 @@ BabyBear (P = 0x78000001) butterfly kernel lane-arithmetic schedules.
 > **STATUS: DOES NOT BUILD.** A clean clone of this repository does not compile, and
 > nothing here should be read as a reproducible build. Measured at `main` on 2026-11-07:
 > `Cargo.toml` declares four `[[bench]]` targets (`butterfly_bench`, `ntt_bench`,
-> `three_lane_bench`, `neon_butterfly_bench`) with no `benches/` directory; one `[[bin]]`
-> (`iep_runner`) whose declared source, `instrument/runner/main.rs`, is not published here;
+> `three_lane_bench`, `neon_butterfly_bench`) with no `benches/` directory; the `iep_runner`
+> binary's source, `instrument/runner/main.rs`, is not published here, and its `[[bin]]`
+> declaration was withdrawn on 2026-11-07 rather than shipped with the code;
 > no `src/lib.rs`; and tests importing modules (`field`, `core`, `ntt`,
 > `avx512_butterfly_32bit`) that are absent from the tree. Consequently `cargo test` cannot
 > exercise this code, and any run reporting "0 tests passed" is a statement about the
 > crate's wiring, not evidence about the kernel.
+
+> The Rust half is withdrawn from this bundle rather than deleted. Its declarations stay in
+> `Cargo.toml` so the intent to publish that half later remains on the record. Until then,
+> treat anything under `src/`, `benches/`, `tests/` or `instrument/` as unshipped.
+>
 >
 > **What still stands.** The SMT evidence under `audit/` is self-contained and does not
 > depend on the Rust tree: it needs only `z3`, and it is the part a reader can actually
